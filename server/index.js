@@ -10,8 +10,7 @@ app.use(express.json());
 
 // Define Routes
 app.use('/', require('./routes/index')); // GET - redirect short url to original url
-app.use('/api/get_all_urls', require('./routes/get_all_urls')); // GET 
-app.use('/api/url', require('./routes/urls')); // POST
+app.use('/api/urls', require('./routes/urls')); // GET ALL or POST
 
 const PORT = 5000;
 

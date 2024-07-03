@@ -4,9 +4,22 @@ const validUrl = require('valid-url');
 const shortid = require('shortid');
 const config = require('config');
 
-const Url = require('../models/Url');
+const Url = require('../models/Url'); // Mongoose Schema
 
-// @route     POST /api/url/shorten
+// @route     GET /api/urls
+// @desc      Recieve all URLs
+router.get('/', async (req, res) => {
+  try {
+    // Fetch all URLs from the database
+    const urls = await Url.find();
+    // Send the URLs as a JSON response
+    return res.json(urls);
+  } catch (err) {
+    res.status(500).send('Server error');
+  }
+});
+
+// @route     POST /api/urls/shorten
 // @desc      Create short URL
 router.post('/shorten', async (req, res) => {
   const { longUrl } = req.body;
