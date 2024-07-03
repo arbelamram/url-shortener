@@ -1,4 +1,3 @@
-// all the short url we create - redirect to the long url
 const express = require('express');
 const router = express.Router();
 
