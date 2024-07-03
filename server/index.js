@@ -9,8 +9,9 @@ connectDB();
 app.use(express.json());
 
 // Define Routes
-app.use('/', require('./routes/index'));
-app.use('/api/url', require('./routes/url'));
+app.use('/', require('./routes/index')); // GET - redirect short url to original url
+app.use('/api/get_all_urls', require('./routes/get_all_urls')); // GET 
+app.use('/api/url', require('./routes/urls')); // POST
 
 const PORT = 5000;
 
