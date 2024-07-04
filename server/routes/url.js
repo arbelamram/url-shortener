@@ -13,13 +13,13 @@ router.get('/', async (req, res) => {
     // Fetch all URLs from the database
     const urls = await Url.find();
     // Send the URLs as a JSON response
-    return res.json(urls);
+    return res.json({"urls": urls});
   } catch (err) {
     res.status(500).send('Server error');
   }
 });
 
-// @route     POST /api/urls/shorten
+// @route     POST /api/url/shorten
 // @desc      Create short URL
 router.post('/shorten', async (req, res) => {
   const { longUrl } = req.body;
