@@ -63,4 +63,16 @@ router.post('/shorten', async (req, res) => {
   }
 });
 
+// @route     DELETE /api/url/:id
+// @desc      Delete URL by ID
+router.delete('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Url.findByIdAndDelete(id);
+    res.json({ message: 'URL deleted successfully' });
+  } catch (err) {
+    res.status(500).send('Server error');
+  }
+});
+
 module.exports = router;
