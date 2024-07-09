@@ -18,6 +18,16 @@ function App() {
     );
   }, []);
 
+  useEffect(() => {
+    if (alertMessage) {
+      const timer = setTimeout(() => {
+        setAlertMessage('');
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [alertMessage]);
+
   const formatDate = (dateString) => {
     const options = {
       year: 'numeric',
@@ -88,11 +98,11 @@ function App() {
     : [];
 
   return (
-    <div>
-      <h1>URLs Table</h1>
+    <div className="container">
+      <h1>Shorten URL service</h1>
       <div>
         <h2>Create a New Short URL</h2>
-        {alertMessage && <p>{alertMessage}</p>}
+        {alertMessage && <div className="alert">{alertMessage}</div>}
         <input
           type="text"
           value={newLongUrl}
@@ -101,6 +111,7 @@ function App() {
         />
         <button onClick={createUrl}>Create</button>
       </div>
+      <h2>Saved URLs (MongoDB)</h2>
       {(typeof backendData.urls === 'undefined') ? (
         <p>Loading...</p>
       ) : (
