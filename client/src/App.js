@@ -144,12 +144,12 @@ function App() {
                     <a href={url.shortUrl} target="_blank" rel="noopener noreferrer">{url.shortUrl}</a>
                   </td>
                   <td>
-                    <button onClick={() => deleteUrl(url._id)}>Delete</button>
                     {editMode === url._id ? (
                       <button onClick={() => editUrl(url._id)}>Save</button>
                     ) : (
                       <button onClick={() => { setEditMode(url._id); setEditLongUrl(url.longUrl); }}>Edit</button>
                     )}
+                    <button onClick={() => deleteUrl(url._id)}>Delete</button>
                   </td>
                 </tr>
               ))}
