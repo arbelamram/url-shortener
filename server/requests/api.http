@@ -1,6 +1,6 @@
 // client http service
 
-POST http://localhost:5000/api/url/shorten
+POST http://localhost:5000/api/url
 Content-Type: application/json
 
 {
