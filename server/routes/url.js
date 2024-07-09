@@ -19,47 +19,79 @@ router.get('/', async (req, res) => {
   }
 });
 
-// @route     POST /api/url/shorten
+// @route     POST /api/url
 // @desc      Create short URL
-router.post('/shorten', async (req, res) => {
+router.post('/', async (req, res) => {
   const { longUrl } = req.body;
   const baseUrl = config.get('baseUrl');
 
-  // Check base url
   if (!validUrl.isUri(baseUrl)) {
     return res.status(401).json('Invalid base url');
   }
 
-  // Create url code
   const urlCode = shortid.generate();
 
-  // Check long url
   if (validUrl.isUri(longUrl)) {
     try {
-      let url = await Url.findOne({ longUrl });
+      let existingUrl = await Url.findOne({ longUrl });
+      const shortUrl = baseUrl + '/' + urlCode;
 
-      if (url) {
-        res.json(url);
-      } else {
-        const shortUrl = baseUrl + '/' + urlCode;
+      const newUrl = new Url({
+        longUrl,
+        shortUrl,
+        urlCode,
+        date: new Date()
+      });
 
-        url = new Url({
-          longUrl,
-          shortUrl,
-          urlCode,
-          date: new Date()
-        });
+      await newUrl.save();
 
-        await url.save();
-
-        res.json(url);
+      if (existingUrl) {
+        return res.json({ message: 'Long URL already exists. Created a new short URL.', url: newUrl });
       }
+
+      res.json({ message: 'New short URL created.', url: newUrl });
+
     } catch (err) {
       console.error(err);
       res.status(500).json('Server error');
     }
   } else {
     res.status(401).json('Invalid long url');
+  }
+});
+
+
+// @route     PUT /api/url/:id
+// @desc      Update long URL by ID
+router.put('/:id', async (req, res) => {
+  const { longUrl } = req.body;
+
+  if (!validUrl.isUri(longUrl)) {
+    return res.status(401).json('Invalid long url');
+  }
+
+  try {
+    const url = await Url.findById(req.params.id);
+    if (!url) {
+      return res.status(404).json('URL not found');
+    }
+    url.longUrl = longUrl;
+    await url.save();
+    res.json(url);
+  } catch (err) {
+    res.status(500).send('Server error');
+  }
+});
+
+// @route     DELETE /api/url/:id
+// @desc      Delete URL by ID
+router.delete('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Url.findByIdAndDelete(id);
+    res.json({ message: 'URL deleted successfully' });
+  } catch (err) {
+    res.status(500).send('Server error');
   }
 });
 
