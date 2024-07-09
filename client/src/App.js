@@ -6,6 +6,7 @@ function App() {
   const [newLongUrl, setNewLongUrl] = useState('');
   const [editMode, setEditMode] = useState(null);
   const [editLongUrl, setEditLongUrl] = useState('');
+  const [alertMessage, setAlertMessage] = useState('');
 
   useEffect(() => {
     fetch("/api/url").then(
@@ -71,9 +72,10 @@ function App() {
         },
         body: JSON.stringify({ longUrl: newLongUrl })
       });
-      const newUrl = await response.json();
+      const result = await response.json();
+      setAlertMessage(result.message);
       setBackendData(prevData => ({
-        urls: [newUrl, ...prevData.urls]
+        urls: [result.url, ...prevData.urls]
       }));
       setNewLongUrl('');
     } catch (err) {
@@ -90,6 +92,7 @@ function App() {
       <h1>URLs Table</h1>
       <div>
         <h2>Create a New Short URL</h2>
+        {alertMessage && <p>{alertMessage}</p>}
         <input
           type="text"
           value={newLongUrl}

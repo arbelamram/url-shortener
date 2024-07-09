@@ -33,24 +33,24 @@ router.post('/', async (req, res) => {
 
   if (validUrl.isUri(longUrl)) {
     try {
-      let url = await Url.findOne({ longUrl });
+      let existingUrl = await Url.findOne({ longUrl });
+      const shortUrl = baseUrl + '/' + urlCode;
 
-      if (url) {
-        res.json(url);
-      } else {
-        const shortUrl = baseUrl + '/' + urlCode;
+      const newUrl = new Url({
+        longUrl,
+        shortUrl,
+        urlCode,
+        date: new Date()
+      });
 
-        url = new Url({
-          longUrl,
-          shortUrl,
-          urlCode,
-          date: new Date()
-        });
+      await newUrl.save();
 
-        await url.save();
-
-        res.json(url);
+      if (existingUrl) {
+        return res.json({ message: 'Long URL already exists. Created a new short URL.', url: newUrl });
       }
+
+      res.json({ message: 'New short URL created.', url: newUrl });
+
     } catch (err) {
       console.error(err);
       res.status(500).json('Server error');
@@ -59,6 +59,7 @@ router.post('/', async (req, res) => {
     res.status(401).json('Invalid long url');
   }
 });
+
 
 // @route     PUT /api/url/:id
 // @desc      Update long URL by ID
