@@ -63,6 +63,28 @@ router.post('/shorten', async (req, res) => {
   }
 });
 
+// @route     PUT /api/url/:id
+// @desc      Update long URL by ID
+router.put('/:id', async (req, res) => {
+  const { longUrl } = req.body;
+
+  if (!validUrl.isUri(longUrl)) {
+    return res.status(401).json('Invalid long url');
+  }
+
+  try {
+    const url = await Url.findById(req.params.id);
+    if (!url) {
+      return res.status(404).json('URL not found');
+    }
+    url.longUrl = longUrl;
+    await url.save();
+    res.json(url);
+  } catch (err) {
+    res.status(500).send('Server error');
+  }
+});
+
 // @route     DELETE /api/url/:id
 // @desc      Delete URL by ID
 router.delete('/:id', async (req, res) => {
