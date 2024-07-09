@@ -3,8 +3,9 @@ import './App.css';
 
 function App() {
   const [backendData, setBackendData] = useState([{}]);
-  const [editMode, setEditMode] = useState(null);
   const [newLongUrl, setNewLongUrl] = useState('');
+  const [editMode, setEditMode] = useState(null);
+  const [editLongUrl, setEditLongUrl] = useState('');
 
   useEffect(() => {
     fetch("/api/url").then(
@@ -48,16 +49,35 @@ function App() {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ longUrl: newLongUrl })
+        body: JSON.stringify({ longUrl: editLongUrl })
       });
       const updatedUrl = await response.json();
       setBackendData(prevData => ({
         urls: prevData.urls.map(url => (url._id === id ? updatedUrl : url))
       }));
       setEditMode(null);
-      setNewLongUrl('');
+      setEditLongUrl('');
     } catch (err) {
       console.error('Failed to edit URL:', err);
+    }
+  };
+
+  const createUrl = async () => {
+    try {
+      const response = await fetch('/api/url', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ longUrl: newLongUrl })
+      });
+      const newUrl = await response.json();
+      setBackendData(prevData => ({
+        urls: [newUrl, ...prevData.urls]
+      }));
+      setNewLongUrl('');
+    } catch (err) {
+      console.error('Failed to create URL:', err);
     }
   };
 
@@ -67,11 +87,21 @@ function App() {
 
   return (
     <div>
+      <h1>URLs Table</h1>
+      <div>
+        <h2>Create a New Short URL</h2>
+        <input
+          type="text"
+          value={newLongUrl}
+          onChange={(e) => setNewLongUrl(e.target.value)}
+          placeholder="Enter long URL"
+        />
+        <button onClick={createUrl}>Create</button>
+      </div>
       {(typeof backendData.urls === 'undefined') ? (
         <p>Loading...</p>
       ) : (
         <div>
-          <h1>URLs Table</h1>
           <table>
             <thead>
               <tr>
@@ -89,8 +119,8 @@ function App() {
                     {editMode === url._id ? (
                       <input
                         type="text"
-                        value={newLongUrl}
-                        onChange={(e) => setNewLongUrl(e.target.value)}
+                        value={editLongUrl}
+                        onChange={(e) => setEditLongUrl(e.target.value)}
                       />
                     ) : (
                       <a href={url.longUrl} target="_blank" rel="noopener noreferrer">{url.longUrl}</a>
@@ -100,12 +130,12 @@ function App() {
                     <a href={url.shortUrl} target="_blank" rel="noopener noreferrer">{url.shortUrl}</a>
                   </td>
                   <td>
+                    <button onClick={() => deleteUrl(url._id)}>Delete</button>
                     {editMode === url._id ? (
                       <button onClick={() => editUrl(url._id)}>Save</button>
                     ) : (
-                      <button onClick={() => { setEditMode(url._id); setNewLongUrl(url.longUrl); }}>Edit</button>
+                      <button onClick={() => { setEditMode(url._id); setEditLongUrl(url.longUrl); }}>Edit</button>
                     )}
-                    <button onClick={() => deleteUrl(url._id)}>Delete</button>
                   </td>
                 </tr>
               ))}
