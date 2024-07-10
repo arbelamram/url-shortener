@@ -10,6 +10,8 @@
 
 The URL Shortener Service is a web application built with the MERN stack (MongoDB, Express.js, React, Node.js) designed to provide users with a simple and efficient way to shorten long URLs. This service aims to streamline sharing and managing web links by converting lengthy URLs into compact, easy-to-share versions. Key features include generating unique short URLs, redirecting users to the original URLs, and tracking usage statistics. The project addresses the need for a reliable and user-friendly URL shortening tool, filling a gap in the availability of customizable and robust URL shorteners.
 
+![Screenshot 2024-07-09 180521](https://github.com/arbelamram/url-shortener/assets/51449659/cafc531d-a671-4572-8195-5ad9cbdf487c)
+
 ## Table of Contents
 
 1. [Description](#description)
