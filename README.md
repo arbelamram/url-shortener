@@ -146,7 +146,7 @@ If you have any questions or suggestions, feel free to reach out:
 ## Acknowledgments
 
 - Resources:
-  - [Badges](https://img.shields.io/badge)
+  - [Badges](https://shields.io/badge)
 
 ## License
 
