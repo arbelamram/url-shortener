@@ -2,22 +2,22 @@ const express = require('express');
 const router = express.Router();
 
 const Url = require('../models/Url');
+const asyncHandler = require('../middleware/asyncHandler');
 
 // @route     GET /:code
 // @desc      Redirect to long/original URL
-router.get('/:code', async (req, res) => {
-  try {
+router.get(
+  '/:code',
+  asyncHandler(async (req, res) => {
     const url = await Url.findOne({ urlCode: req.params.code });
 
-    if (url) {
-      return res.redirect(url.longUrl);
-    } else {
-      return res.status(404).json('No url found');
+    if (!url) {
+      // 404 is a client-visible error (not a server crash)
+      return res.status(404).json({ error: 'No url found' });
     }
-  } catch (err) {
-    console.error(err);
-    res.status(500).json('Server error');
-  }
-});
+
+    return res.redirect(url.longUrl);
+  })
+);
 
 module.exports = router;
