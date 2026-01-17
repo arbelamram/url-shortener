@@ -2,6 +2,7 @@ require('dotenv').config();
 
 const express = require('express');
 const connectDB = require('./config/db');
+const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
 
@@ -10,10 +11,12 @@ connectDB();
 
 app.use(express.json());
 
-// Define Routes
+// Routes
 app.use('/api/url', require('./routes/url')); // GET ALL or POST
 app.use('/', require('./routes/index')); // GET - redirect short url to original url
 
-const PORT = 5000;
+// Error handler (MUST be last)
+app.use(errorHandler);
 
+const PORT = 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
