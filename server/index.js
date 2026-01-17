@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const connectDB = require('./config/db');
 
@@ -9,8 +11,8 @@ connectDB();
 app.use(express.json());
 
 // Define Routes
-app.use('/', require('./routes/index')); // GET - redirect short url to original url
 app.use('/api/url', require('./routes/url')); // GET ALL or POST
+app.use('/', require('./routes/index')); // GET - redirect short url to original url
 
 const PORT = 5000;
 

@@ -1,4 +1,3 @@
 {
-    "mongoURI": "<PLACE YOUR MongoDB CONNECTION HERE>",
     "baseUrl": "http://localhost:5000"
 }
