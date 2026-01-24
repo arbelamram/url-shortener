@@ -10,15 +10,7 @@
 
 ## Overview
 
-The **URL Shortener Service** is a full-stack web application built with the **MERN stack** (MongoDB, Express.js, React, Node.js).  
-It provides a clean, production-oriented solution for shortening long URLs, managing them via a RESTful API, and resolving short links via fast HTTP redirects.
-
-The project focuses on **backend correctness, API design, and maintainability**, rather than being a UI-heavy demo.  
-It is intentionally structured to resemble a real-world service rather than a tutorial project.
-
-![Screenshot](https://github.com/arbelamram/url-shortener/assets/51449659/cafc531d-a671-4572-8195-5ad9cbdf487c)
-
----
+<img width="957" height="751" alt="Screenshot 2026-01-17 151320" src="https://github.com/user-attachments/assets/67f7f7ff-b71e-4380-84a0-9590f2dcd89d" />
 
 ## Table of Contents
 
