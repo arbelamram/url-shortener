@@ -16,139 +16,125 @@
 // - Sorting is performed via useMemo to avoid resorting on every render.
 
 import { useMemo, useState } from "react";
-import "./UrlTable.css";
+import "../styles/components/UrlTable.css";
 
 import { deleteUrl as apiDeleteUrl, updateUrl as apiUpdateUrl } from "../api/urlApi";
 import CopyButton from "./CopyButton";
 
 export default function UrlTable({ urls, onDeleted, onUpdated }) {
-    // Holds the _id of the row currently being edited (or null when not editing)
-    const [editMode, setEditMode] = useState(null);
+  const [editMode, setEditMode] = useState(null);
+  const [editLongUrl, setEditLongUrl] = useState("");
 
-    // Temporary input value while editing longUrl
-    const [editLongUrl, setEditLongUrl] = useState("");
+  const sortedUrls = useMemo(() => {
+    return Array.isArray(urls)
+      ? [...urls].sort((a, b) => new Date(b.date) - new Date(a.date))
+      : [];
+  }, [urls]);
 
-    // Sort newest first by date (stable UX for "recently created" items)
-    const sortedUrls = useMemo(() => {
-        return Array.isArray(urls)
-            ? [...urls].sort((a, b) => new Date(b.date) - new Date(a.date))
-            : [];
-    }, [urls]);
-
-    // Formats a stored date into a readable string
-    const formatDate = (dateString) => {
-        const options = {
-            year: "numeric",
-            month: "short",
-            day: "numeric",
-            hour: "2-digit",
-            minute: "2-digit",
-            hour12: false,
-        };
-        return new Date(dateString).toLocaleDateString(undefined, options);
+  const formatDate = (dateString) => {
+    const options = {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
     };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
 
-    /**
-     * Delete flow:
-     * - Call API
-     * - Tell parent so it can remove from local list
-     */
-    const handleDelete = async (id) => {
-        try {
-            await apiDeleteUrl(id);
-            if (onDeleted) onDeleted(id);
-        } catch (err) {
-            console.error("Failed to delete URL:", err);
-        }
-    };
+  const handleDelete = async (id) => {
+    try {
+      await apiDeleteUrl(id);
+      if (onDeleted) onDeleted(id);
+    } catch (err) {
+      console.error("Failed to delete URL:", err);
+    }
+  };
 
-    /**
-     * Save flow (edit longUrl):
-     * - Call API with updated longUrl
-     * - Reset edit state
-     * - Tell parent to replace the updated item in local list
-     */
-    const handleSave = async (id) => {
-        try {
-            const updated = await apiUpdateUrl(id, editLongUrl);
+  const handleSave = async (id) => {
+    try {
+      const updated = await apiUpdateUrl(id, editLongUrl);
 
-            setEditMode(null);
-            setEditLongUrl("");
+      setEditMode(null);
+      setEditLongUrl("");
 
-            if (onUpdated) onUpdated(updated);
-        } catch (err) {
-            console.error("Failed to edit URL:", err);
-        }
-    };
+      if (onUpdated) onUpdated(updated);
+    } catch (err) {
+      console.error("Failed to edit URL:", err);
+    }
+  };
 
-    return (
-        <div className="url-table-wrap">
-            <h2 className="url-table-title">My Shortened URLs</h2>
+  return (
+    <div className="url-table-wrap">
+      <h2 className="url-table-title">My Shortened URLs</h2>
 
-            <table className="url-table">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Long URL</th>
-                        <th>Short URL</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
+      <table className="url-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Long URL</th>
+            <th>Short URL</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
 
-                <tbody>
-                    {sortedUrls.map((url) => (
-                        <tr key={url._id}>
-                            <td>{formatDate(url.date)}</td>
+        <tbody>
+          {sortedUrls.map((url) => (
+            <tr key={url._id}>
+              {/* Date is slightly muted to reduce visual noise */}
+              <td className="cell-muted">{formatDate(url.date)}</td>
 
-                            <td>
-                                {editMode === url._id ? (
-                                    <input
-                                        type="text"
-                                        value={editLongUrl}
-                                        onChange={(e) => setEditLongUrl(e.target.value)}
-                                        className="url-table-input"
-                                    />
-                                ) : (
-                                    <a href={url.longUrl} target="_blank" rel="noopener noreferrer">
-                                        {url.longUrl}
-                                    </a>
-                                )}
-                            </td>
+              {/* Long URL cell: truncate nicely via .cell-url + .url-text */}
+              <td className="cell-url">
+                {editMode === url._id ? (
+                  <input
+                    type="text"
+                    value={editLongUrl}
+                    onChange={(e) => setEditLongUrl(e.target.value)}
+                    className="url-table-input"
+                  />
+                ) : (
+                  <a href={url.longUrl} target="_blank" rel="noopener noreferrer">
+                    <span className="url-text">{url.longUrl}</span>
+                  </a>
+                )}
+              </td>
 
-                            <td>
-                                <a href={url.shortUrl} target="_blank" rel="noopener noreferrer">
-                                    {url.shortUrl}
-                                </a>
-                            </td>
+              {/* Short URL cell: also truncates nicely */}
+              <td className="cell-url">
+                <a href={url.shortUrl} target="_blank" rel="noopener noreferrer">
+                  <span className="url-text">{url.shortUrl}</span>
+                </a>
+              </td>
 
-                            {/* Action Buttons */}
-                            <td>
-                                <div className="url-table-actions">
-                                    {/* Copy short URL */}
-                                    <CopyButton text={url.shortUrl} />
+              <td>
+                <div className="url-table-actions">
+                  <CopyButton text={url.shortUrl} />
 
-                                    {/* Save / Edit toggle */}
-                                    {editMode === url._id ? (
-                                        <button onClick={() => handleSave(url._id)}>Save</button>
-                                    ) : (
-                                        <button
-                                            onClick={() => {
-                                                setEditMode(url._id);
-                                                setEditLongUrl(url.longUrl);
-                                            }}
-                                        >
-                                            Edit
-                                        </button>
-                                    )}
+                  {editMode === url._id ? (
+                    <button onClick={() => handleSave(url._id)}>Save</button>
+                  ) : (
+                    <button
+                      onClick={() => {
+                        setEditMode(url._id);
+                        setEditLongUrl(url.longUrl);
+                      }}
+                    >
+                      Edit
+                    </button>
+                  )}
 
-                                    {/* Delete */}
-                                    <button onClick={() => handleDelete(url._id)}>Delete</button>
-                                </div>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
-    );
+                  {/* Delete uses a subtle danger style */}
+                  <button className="danger" onClick={() => handleDelete(url._id)}>
+                    Delete
+                  </button>
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
 }

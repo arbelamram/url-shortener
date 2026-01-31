@@ -2,6 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 
 // Global (shared) styles
+import "./styles/tokens.css";
+import "./styles/base.css";
 import "./styles/global.css";
 
 import App from "./App";

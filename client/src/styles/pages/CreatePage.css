@@ -1,0 +1,32 @@
+/* src/styles/pages/CreatePage.css
+   ---------------------------------------------
+   Create Page styles (Tool Mode)
+   - Premium hero + subtitle
+   - Glass panel wrapper for the form
+*/
+
+.create-page {
+  padding: 40px 0;
+}
+
+.create-title {
+  margin: 0 0 12px 0;
+  font-size: 44px;
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+}
+
+.create-subtitle {
+  margin: 0 0 18px 0;
+  max-width: 760px;
+}
+
+/* Glass wrapper for the form */
+.create-panel {
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 18px;
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: var(--shadow-1);
+  backdrop-filter: blur(10px);
+}

@@ -18,7 +18,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-import "./LandingPage.css";
+import "../styles/pages/LandingPage.css";
 
 import CopyButton from "../components/CopyButton";
 import { createUrl } from "../api/urlApi";

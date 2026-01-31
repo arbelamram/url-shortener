@@ -16,7 +16,7 @@
 // - Keeps timer cleanup safe to avoid state updates after unmount
 
 import React, { useEffect, useRef, useState } from "react";
-import "./CopyButton.css";
+import "../styles/components/CopyButton.css";
 
 export default function CopyButton({
   text,

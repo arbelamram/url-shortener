@@ -13,7 +13,7 @@
 //   so parent pages can update local state without refetching.
 
 import { useEffect, useState } from "react";
-import "./UrlCreateForm.css";
+import "../styles/components/UrlCreateForm.css";
 
 import { createUrl } from "../api/urlApi";
 
@@ -77,7 +77,9 @@ export default function UrlCreateForm({ onCreated }) {
         className="url-create-input"
       />
 
-      <button onClick={handleCreate} className="url-create-btn">
+      <button
+        onClick={handleCreate}
+        className="url-create-btn">
         Create
       </button>
     </div>

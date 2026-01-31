@@ -19,7 +19,7 @@
 // - Table and form UI are separated into components for readability.
 
 import { useEffect, useState } from "react";
-import "./UrlsPage.css";
+import "../styles/pages/UrlsPage.css";
 
 import { getAllUrls } from "../api/urlApi";
 import UrlCreateForm from "../components/UrlCreateForm";
@@ -64,17 +64,20 @@ export default function UrlsPage() {
 
   return (
     <div className="container urls-page">
-      <h1 className="urls-title">Shorten URL service</h1>
+      <h1 className="urls-title">My Shortened URLs</h1>
+      <p className="muted urls-subtitle">
+        Create, copy, edit, and manage your short links in one place.
+      </p>
 
-      {/* Creation UI (reused component) */}
-      <UrlCreateForm onCreated={handleCreated} />
+      <div className="urls-panel">
+        <UrlCreateForm onCreated={handleCreated} />
 
-      {/* List/edit/delete UI */}
-      <UrlTable
-        urls={backendData.urls}
-        onDeleted={handleDeleted}
-        onUpdated={handleUpdated}
-      />
+        <UrlTable
+          urls={backendData.urls}
+          onDeleted={handleDeleted}
+          onUpdated={handleUpdated}
+        />
+      </div>
     </div>
   );
 }

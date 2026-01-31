@@ -8,16 +8,21 @@
 //
 // Notes:
 // - The creation UI itself lives in <UrlCreateForm /> so it can be reused.
-// - Management actions (edit/delete) remain under /urls.
 
-import "./CreatePage.css";
+import "../styles/pages/CreatePage.css";
 import UrlCreateForm from "../components/UrlCreateForm";
 
 export default function CreatePage() {
   return (
     <div className="container create-page">
-      <h1 className="create-title">Shorten URL service</h1>
-      <UrlCreateForm />
+      <h1 className="create-title">Create a short link</h1>
+      <p className="muted create-subtitle">
+        Paste a long URL and generate a short link you can copy and share.
+      </p>
+
+      <div className="create-panel">
+        <UrlCreateForm />
+      </div>
     </div>
   );
 }
