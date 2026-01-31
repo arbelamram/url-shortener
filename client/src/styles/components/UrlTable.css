@@ -66,7 +66,7 @@
 
 .url-table th:nth-child(4),
 .url-table td:nth-child(4) {
-  width: 240px; /* Actions */
+  width: auto; /* Actions */
 }
 
 /* Links */
