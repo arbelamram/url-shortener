@@ -1,0 +1,14 @@
+/* src/pages/CreatePage.css
+   ---------------------------------------------
+   Create Page styles
+   - This page is the "tool mode": focused creation UI
+   - Keep styles minimal here; most UI styling lives in shared/global.css
+*/
+
+.create-page {
+  padding: 28px 0;
+}
+
+.create-title {
+  margin: 0 0 12px 0;
+}

@@ -1,12 +1,23 @@
-import React, { useEffect, useRef, useState } from "react";
+// src/components/CopyButton.js
+// ---------------------------------------------
+// CopyButton (Reusable)
+// ---------------------------------------------
+// Purpose:
+// - One-click copy for a given text (usually a short URL).
+//
+// UX behaviors:
+// - Shows "Copied!" briefly after success
+// - Shows "Failed" briefly if copy fails
+// - Tooltip appears when copied
+//
+// Implementation notes:
+// - Uses navigator.clipboard when available (modern browsers)
+// - Falls back to document.execCommand("copy") for older environments
+// - Keeps timer cleanup safe to avoid state updates after unmount
 
-/**
- * CopyButton
- * - One-click copy
- * - Shows "Copied!" for a short time
- * - Subtle micro-interaction (press + hover)
- * - Accessible (aria-live + keyboard)
- */
+import React, { useEffect, useRef, useState } from "react";
+import "./CopyButton.css";
+
 export default function CopyButton({
   text,
   label = "Copy",
@@ -14,9 +25,13 @@ export default function CopyButton({
   className = "",
   timeoutMs = 1600,
 }) {
-  const [status, setStatus] = useState("idle"); // idle | copied | error
+  // idle | copied | error
+  const [status, setStatus] = useState("idle");
+
+  // Timer ref used to reset visual state back to idle
   const timerRef = useRef(null);
 
+  // Cleanup timer on unmount
   useEffect(() => {
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
@@ -28,20 +43,31 @@ export default function CopyButton({
     timerRef.current = setTimeout(() => setStatus("idle"), timeoutMs);
   };
 
+  /**
+   * Fallback method for older browsers.
+   * Creates a hidden textarea, selects it, and runs execCommand("copy").
+   */
   const fallbackCopy = (value) => {
-    // fallback for older browsers
     const el = document.createElement("textarea");
     el.value = value;
     el.setAttribute("readonly", "");
     el.style.position = "absolute";
     el.style.left = "-9999px";
     document.body.appendChild(el);
+
     el.select();
     const ok = document.execCommand("copy");
+
     document.body.removeChild(el);
     return ok;
   };
 
+  /**
+   * Copy handler:
+   * - Attempts clipboard API first
+   * - Uses fallback if clipboard API isn't available
+   * - Updates UI state accordingly
+   */
   const handleCopy = async () => {
     if (!text) return;
 
@@ -70,12 +96,14 @@ export default function CopyButton({
       <button
         type="button"
         onClick={handleCopy}
-        className={`copy-btn ${isCopied ? "is-copied" : ""} ${isError ? "is-error" : ""}`}
+        className={`copy-btn ${isCopied ? "is-copied" : ""} ${
+          isError ? "is-error" : ""
+        }`}
         disabled={!text}
         aria-label="Copy to clipboard"
       >
         <span className="copy-icon" aria-hidden="true">
-          {/* two-squares icon (copy) */}
+          {/* Icon switches from "copy" to "check" when copied */}
           {!isCopied ? (
             <svg viewBox="0 0 24 24" width="16" height="16">
               <path
@@ -84,7 +112,6 @@ export default function CopyButton({
               />
             </svg>
           ) : (
-            // check icon
             <svg viewBox="0 0 24 24" width="16" height="16">
               <path
                 fill="currentColor"
@@ -99,8 +126,12 @@ export default function CopyButton({
         </span>
       </button>
 
-      {/* tiny tooltip bubble */}
-      <span className={`copy-tip ${isCopied ? "show" : ""}`} role="status" aria-live="polite">
+      {/* Tooltip appears briefly after successful copy */}
+      <span
+        className={`copy-tip ${isCopied ? "show" : ""}`}
+        role="status"
+        aria-live="polite"
+      >
         Copied
       </span>
     </span>

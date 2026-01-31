@@ -1,0 +1,16 @@
+/* src/pages/UrlsPage.css
+   ---------------------------------------------
+   URLs Page styles (Management Mode)
+   - This page is where users manage existing short URLs:
+     list, edit, delete.
+   - Minimal page styling; table/form styling belongs to components
+     (UrlCreateForm, UrlTable) and shared global styles.
+*/
+
+.urls-page {
+  padding: 28px 0;
+}
+
+.urls-title {
+  margin: 0 0 12px 0;
+}

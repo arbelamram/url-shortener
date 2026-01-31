@@ -1,0 +1,42 @@
+/* src/components/UrlCreateForm.css
+   ---------------------------------------------
+   URL Create Form (Reusable Component)
+   - Used in:
+     - CreatePage (tool-focused flow)
+     - UrlsPage (management flow)
+   - Handles only creation UX, not listing/editing
+*/
+
+.url-create {
+  margin-bottom: 24px;
+}
+
+.url-create-title {
+  margin: 0 0 10px 0;
+}
+
+.url-create-input {
+  width: 100%;
+  max-width: 520px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  margin-right: 8px;
+}
+
+.url-create-btn {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.url-create-alert {
+  margin: 8px 0 10px 0;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  font-weight: 700;
+}

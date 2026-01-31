@@ -1,0 +1,72 @@
+/* src/styles/global.css
+   ---------------------------------------------
+   Global shared styles
+   - Layout helpers
+   - Navigation
+   - Shared buttons
+*/
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.muted {
+  opacity: 0.75;
+}
+
+/* --- Navigation --- */
+
+.nav {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  background: white;
+}
+
+.nav-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.brand {
+  font-weight: 800;
+  text-decoration: none;
+  color: inherit;
+}
+
+.nav-links {
+  margin-left: auto;
+  display: flex;
+  gap: 10px;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: inherit;
+  padding: 8px 10px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.nav-link:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+/* --- Shared buttons --- */
+
+.btn {
+  display: inline-block;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-weight: 700;
+  text-decoration: none;
+  border: 1px solid transparent;
+}
+
+.btn.outline {
+  border-color: rgba(0, 0, 0, 0.2);
+}
