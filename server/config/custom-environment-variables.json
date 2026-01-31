@@ -1,0 +1,4 @@
+{
+  "baseUrl": "BASE_URL",
+  "mongoURI": "MONGO_URI"
+}

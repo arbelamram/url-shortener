@@ -10,30 +10,31 @@
 
 ## Overview
 
-<img width="957" height="751" alt="Screenshot 2026-01-17 151320" src="https://github.com/user-attachments/assets/67f7f7ff-b71e-4380-84a0-9590f2dcd89d" />
+![Landing Page Screenshot](./docs/screenshots/landing.png)
 
 ## Table of Contents
 
 1. [Architecture Overview](#architecture-overview)
-2. [Features](#features)
-3. [Technologies Used](#technologies-used)
-4. [Getting Started](#getting-started)
+2. [UI & Frontend Architecture](#ui--frontend-architecture)
+3. [Features](#features)
+4. [Technologies Used](#technologies-used)
+5. [Getting Started](#getting-started)
    - [Prerequisites](#prerequisites)
    - [Installation](#installation)
    - [Configuration](#configuration)
-5. [Usage](#usage)
+6. [Usage](#usage)
    - [Running the Application](#running-the-application)
    - [API Endpoints](#api-endpoints)
    - [Testing](#testing)
-6. [Design Decisions](#design-decisions)
-7. [Known Limitations & Future Improvements](#known-limitations--future-improvements)
-8. [Contributing](#contributing)
-9. [Contact](#contact)
-10. [License](#license)
+7. [Design Decisions](#design-decisions)
+8. [Known Limitations & Future Improvements](#known-limitations--future-improvements)
+9. [Contributing](#contributing)
+10. [Contact](#contact)
+11. [License](#license)
 
 ---
 
-### Architecture Overview
+## Architecture Overview
 
 The system is intentionally split into **two distinct backend responsibilities**:
 
@@ -60,6 +61,219 @@ MongoDB (Atlas)
 Redirect Endpoint (/:code)
 
 This separation mirrors how real URL-shortening services are typically implemented.
+
+---
+
+## UI & Frontend Architecture
+
+The frontend is designed as a small, product-grade React application, focusing on clarity, separation of concerns, and long-term maintainability.
+
+Rather than treating the UI as a thin demo layer, it follows patterns commonly used in real-world internal tools and early-stage SaaS products.
+
+---
+
+### User Experience Flow
+
+The application is organized around **three intentional user flows**:
+
+1. Landing Page (`/`)
+   * Primary entry point
+   * Optimized for speed and clarity
+   * One-action focus: shorten a URL immediately
+   * Shows the result inline with copy support
+
+2. Create Page (`/create`)
+   * “Tool mode” for focused URL creation
+   * Minimal distractions
+   * Reuses the same creation component as other pages
+
+3. URLs Management Page (`/urls`)
+   * Admin-style management interface
+   * View, edit, copy, and delete URLs
+   * Optimistic UI updates without full refetching
+
+This separation keeps each page **purpose-driven**, avoiding overloaded screens.
+
+---
+
+### Component & Folder Structure
+
+The frontend follows a clear and scalable structure:
+
+```
+client/src/
+  api/            # API abstraction layer (fetch wrappers)
+  components/     # Reusable UI components
+  pages/          # Route-level pages
+  styles/         # All styling (tokens, base, global, page, component)
+```
+
+**Key principles:**
+   * Pages handle layout and flow
+   * Components handle reusable behavior
+   * API layer isolates HTTP logic from UI
+   * Styles are centralized and predictable
+
+---
+
+### Styling Strategy
+
+Styling is intentionally structured and not ad-hoc.
+
+**Design Tokens**
+
+A shared design system is defined in:
+
+`styles/tokens.css`
+
+This includes:
+   * Colors
+   * Spacing
+   * Border radii
+   * Shadows
+   * Typography
+
+All components and pages reference these tokens, enabling:
+   * Visual consistency
+   * Easy theming
+   * Future dark/light mode support
+
+---
+
+### CSS Layers
+
+```
+styles/
+  tokens.css      # Design system (single source of truth)
+  base.css        # Global element defaults & resets
+  global.css      # Shared layout & navigation styles
+  pages/          # Page-specific styling
+  components/     # Component-specific styling
+```
+
+This approach avoids:
+   * Inline styles
+   * CSS duplication
+   * “God CSS files”
+
+…and mirrors how mature frontend codebases are structured.
+
+---
+
+### Reusability & State Management
+
+   * Shared components (UrlCreateForm, UrlTable, CopyButton) are reused across pages
+   * Page components own their data and pass updates downward
+   * No global state library is used intentionally
+      * Local state + clear data flow keeps complexity low
+      * Easy to introduce Redux/Zustand later if needed
+
+---
+
+### UX & Interaction Details
+
+Small details were intentionally implemented to elevate the experience:
+   * Active navigation highlighting
+   * Glass-style panels with backdrop blur
+   * Copy-to-clipboard feedback with tooltips
+   * Optimistic UI updates (no full page reloads)
+   * Responsive layouts for smaller screens
+
+These choices aim to demonstrate **attention to product quality**, not just functionality.
+
+---
+
+### Frontend Design Philosophy
+
+The frontend prioritizes:  
+   * Readability over cleverness
+   * Predictable structure over abstraction
+   * Incremental scalability
+
+It is intentionally built as something that could:
+   * Be extended with authentication
+   * Support per-user URL ownership
+   * Grow into a real internal dashboard
+
+---
+
+## UI Screenshots
+
+> UI screenshots are provided to demonstrate product-level UX decisions,
+> not just visual appearance.
+
+The following screenshots illustrate the main user flows and UI design choices
+across the application.  
+Each page is intentionally designed around a single responsibility.
+
+---
+
+### Landing Page (`/`)
+
+> Primary entry point — fast, minimal, and action-oriented.
+
+![Landing Page Screenshot](./docs/screenshots/landing.png)
+
+**Highlights**
+- One-click URL shortening
+- Immediate inline result display
+- Copy-to-clipboard feedback
+- Secondary navigation to advanced flows
+
+The landing page is optimized for speed and clarity, allowing users to shorten
+a URL without navigating away or configuring anything.
+
+---
+
+### Create Page (`/create`)
+
+> Tool-focused creation mode with minimal distractions.
+
+![Create Page Screenshot](./docs/screenshots/create.png)
+
+**Highlights**
+- Focused input + action layout
+- Reuses the same creation component as other pages
+- Consistent glass-panel styling
+- Designed for repeated usage
+
+This page is intended for users who want a dedicated “work mode” experience
+without additional UI noise.
+
+---
+
+### URLs Management Page (`/urls`)
+
+> Admin-style interface for managing existing short URLs.
+
+![URLs Page Screenshot](./docs/screenshots/urls.png)
+
+**Highlights**
+- List, edit, copy, and delete URLs in one place
+- Optimistic UI updates (no full refetch after actions)
+- Inline editing of long URLs
+- Responsive table layout for smaller screens
+
+This page demonstrates how the application scales beyond a simple demo into
+a maintainable management interface.
+
+---
+
+### Navigation & Global Layout
+
+> Shared layout and navigation across all pages.
+
+![Navigation Screenshot](./docs/screenshots/navigation.png)
+
+**Highlights**
+- Active route highlighting
+- Persistent navigation bar
+- Consistent spacing and typography
+- Glass-style surfaces and dark theme
+
+The navigation and layout system is shared across pages and implemented once
+at the application root.
+
 
 ---
 
@@ -137,7 +351,12 @@ MONGO_PROJECT=
 MONGO_DOMAIN=mongodb.net
 MONGO_DB=test
 MONGO_OPTIONS=retryWrites=true&w=majority
+BASE_URL=http://localhost:5000
+
 ```
+>BASE_URL controls the domain prefix used when generating short URLs.
+>This allows clean demo URLs (e.g. https://short.ly/abc123) without code changes.
+
 A template is provided at:
 ```sh
 server/.env.example

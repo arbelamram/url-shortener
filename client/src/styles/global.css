@@ -1,0 +1,142 @@
+/* src/styles/global.css
+   ---------------------------------------------
+   Global shared styles
+   - Layout helpers
+   - Navigation
+   - Shared buttons
+   - Reusable surfaces (card / panel)
+   - Uses design tokens from tokens.css
+*/
+
+/* Layout */
+.container {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 22px 16px;
+}
+
+/* Optional utility for consistent page spacing */
+.page {
+  padding: 42px 0;
+}
+
+/* Muted text helper */
+.muted {
+  opacity: 1;
+  color: var(--muted);
+}
+
+/* Reusable glass surface (use on pages and components) */
+.card {
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 18px;
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: var(--shadow-1);
+  backdrop-filter: blur(10px);
+}
+
+/* --- Navigation --- */
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: blur(10px);
+  background: rgba(11, 16, 32, 0.55);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-inner {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* Brand / logo */
+.brand {
+  font-weight: 950;
+  text-decoration: none;
+  color: var(--text);
+  letter-spacing: -0.01em;
+  padding: 6px 10px;
+  border-radius: var(--r-sm);
+  border: 1px solid transparent;
+}
+
+.brand:hover {
+  background: rgba(255,255,255,0.05);
+  border-color: rgba(255,255,255,0.10);
+}
+
+.nav-links {
+  margin-left: auto;
+  display: flex;
+  gap: 10px;
+}
+
+/* Nav links */
+.nav-link {
+  text-decoration: none;
+  color: var(--text);
+  padding: 8px 12px;
+  border-radius: var(--r-sm);
+  font-weight: 800;
+  border: 1px solid transparent;
+  transition: transform 120ms ease, background 120ms ease, border-color 120ms ease;
+}
+
+.nav-link:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.10);
+}
+
+.nav-link:active {
+  transform: translateY(1px);
+}
+
+/* Active nav link */
+.nav-link.active {
+  background: rgba(124,58,237,0.25);
+  border: 1px solid rgba(124,58,237,0.45);
+}
+
+/* --- Shared buttons / links --- */
+
+.btn {
+  display: inline-block;
+  padding: 10px 12px;
+  border-radius: var(--r-sm);
+  font-weight: 850;
+  text-decoration: none;
+  border: 1px solid rgba(255,255,255,0.16);
+  background: rgba(255,255,255,0.06);
+  color: var(--text);
+  transition: transform 120ms ease, background 120ms ease, border-color 120ms ease;
+}
+
+.btn:hover {
+  background: rgba(255,255,255,0.10);
+  border-color: rgba(255,255,255,0.22);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn.outline {
+  background: transparent;
+}
+
+/* Optional “primary” variant */
+.btn.primary {
+  background: rgba(124,58,237,0.25);
+  border-color: rgba(124,58,237,0.45);
+}
+.btn.primary:hover {
+  background: rgba(124,58,237,0.32);
+  border-color: rgba(124,58,237,0.55);
+}

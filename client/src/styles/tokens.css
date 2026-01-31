@@ -1,0 +1,32 @@
+/* src/styles/tokens.css
+   Design tokens (single source of truth)
+*/
+:root {
+  /* colors */
+  --bg: #0b1020;
+  --surface: rgba(255, 255, 255, 0.06);
+  --surface-strong: rgba(255, 255, 255, 0.10);
+  --border: rgba(255, 255, 255, 0.14);
+  --text: rgba(255, 255, 255, 0.92);
+  --muted: rgba(255, 255, 255, 0.70);
+
+  --primary: #7c3aed;      /* violet */
+  --success: #22c55e;      /* green */
+  --danger: #ef4444;
+
+  /* radius + shadow */
+  --r-sm: 10px;
+  --r-md: 14px;
+  --r-lg: 18px;
+  --shadow-1: 0 10px 30px rgba(0,0,0,0.25);
+
+  /* spacing */
+  --space-1: 8px;
+  --space-2: 12px;
+  --space-3: 16px;
+  --space-4: 22px;
+  --space-5: 32px;
+
+  /* typography */
+  --font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+}

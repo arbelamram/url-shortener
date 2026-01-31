@@ -1,0 +1,32 @@
+/* src/styles/pages/UrlsPage.css
+   ---------------------------------------------
+   URLs Page styles (Management Mode)
+   - Adds a premium "admin panel" wrapper
+   - Keeps form/table detailed styling inside component CSS files
+*/
+
+.urls-page {
+  padding: 40px 0;
+}
+
+.urls-title {
+  margin: 0 0 14px 0;
+  font-size: 44px;
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+}
+
+.urls-subtitle {
+  margin: 0 0 18px 0;
+  max-width: 760px;
+}
+
+/* Glass panel wrapper around form + table */
+.urls-panel {
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 18px;
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: var(--shadow-1);
+  backdrop-filter: blur(10px);
+}
