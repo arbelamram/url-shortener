@@ -56,3 +56,72 @@
 .btn.outline {
   border-color: rgba(0,0,0,0.2);
 }
+
+/* --- CopyButton --- */
+.copy-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,0.18);
+  background: rgba(255,255,255,0.9);
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 120ms ease, background 120ms ease, border-color 120ms ease;
+}
+
+.copy-btn:hover {
+  background: rgba(0,0,0,0.03);
+  border-color: rgba(0,0,0,0.26);
+}
+
+.copy-btn:active {
+  transform: translateY(1px);
+}
+
+.copy-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.copy-icon {
+  display: inline-flex;
+}
+
+.copy-btn.is-copied {
+  border-color: rgba(16, 185, 129, 0.55);
+  background: rgba(16, 185, 129, 0.08);
+}
+
+.copy-btn.is-error {
+  border-color: rgba(239, 68, 68, 0.5);
+  background: rgba(239, 68, 68, 0.08);
+}
+
+.copy-tip {
+  position: absolute;
+  top: -30px;
+  right: 0;
+  padding: 6px 8px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 700;
+  background: rgba(17, 24, 39, 0.92);
+  color: white;
+  opacity: 0;
+  transform: translateY(4px);
+  pointer-events: none;
+  transition: opacity 120ms ease, transform 120ms ease;
+}
+
+.copy-tip.show {
+  opacity: 1;
+  transform: translateY(0);
+}
