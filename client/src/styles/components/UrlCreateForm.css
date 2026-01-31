@@ -3,10 +3,11 @@
    URL Create Form (Reusable Component)
    - Dark / glass theme
    - Used on CreatePage and UrlsPage
+   - Final polish: consistent sizing + tighter spacing
 */
 
 .url-create {
-  margin-bottom: 26px;
+  margin-bottom: 18px;
 }
 
 .url-create-title {
@@ -28,7 +29,9 @@
 .url-create-input {
   flex: 1;
   min-width: 260px;
-  padding: 12px 14px;
+  height: 44px;
+
+  padding: 0 14px;
   border-radius: var(--r-sm);
   border: 1px solid rgba(255,255,255,0.18);
   background: rgba(255,255,255,0.06);
@@ -48,18 +51,26 @@
 
 /* Button */
 .url-create-btn {
-  padding: 12px 16px;
+  height: 44px;
+
+  padding: 0 16px;
   border-radius: var(--r-sm);
   border: 1px solid rgba(124,58,237,0.45);
   background: rgba(124,58,237,0.22);
   font-weight: 900;
   letter-spacing: -0.01em;
   cursor: pointer;
+
+  transition: transform 120ms ease, background 120ms ease, border-color 120ms ease;
 }
 
 .url-create-btn:hover {
   background: rgba(124,58,237,0.30);
   border-color: rgba(124,58,237,0.60);
+}
+
+.url-create-btn:active {
+  transform: translateY(1px);
 }
 
 .url-create-btn:disabled {
@@ -74,7 +85,7 @@
   border-radius: var(--r-sm);
   background: rgba(34, 197, 94, 0.12);
   border: 1px solid rgba(34, 197, 94, 0.35);
-  font-weight: 800;
+  font-weight: 850;
 }
 
 /* Responsive */
