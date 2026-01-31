@@ -10,7 +10,7 @@
 
 ## Overview
 
-<img width="957" height="751" alt="Screenshot 2026-01-17 151320" src="https://github.com/user-attachments/assets/67f7f7ff-b71e-4380-84a0-9590f2dcd89d" />
+![Landing Page Screenshot](./docs/screenshots/landing.png)
 
 ## Table of Contents
 
@@ -197,6 +197,86 @@ It is intentionally built as something that could:
 
 ---
 
+## UI Screenshots
+
+> UI screenshots are provided to demonstrate product-level UX decisions,
+> not just visual appearance.
+
+The following screenshots illustrate the main user flows and UI design choices
+across the application.  
+Each page is intentionally designed around a single responsibility.
+
+---
+
+### Landing Page (`/`)
+
+> Primary entry point — fast, minimal, and action-oriented.
+
+![Landing Page Screenshot](./docs/screenshots/landing.png)
+
+**Highlights**
+- One-click URL shortening
+- Immediate inline result display
+- Copy-to-clipboard feedback
+- Secondary navigation to advanced flows
+
+The landing page is optimized for speed and clarity, allowing users to shorten
+a URL without navigating away or configuring anything.
+
+---
+
+### Create Page (`/create`)
+
+> Tool-focused creation mode with minimal distractions.
+
+![Create Page Screenshot](./docs/screenshots/create.png)
+
+**Highlights**
+- Focused input + action layout
+- Reuses the same creation component as other pages
+- Consistent glass-panel styling
+- Designed for repeated usage
+
+This page is intended for users who want a dedicated “work mode” experience
+without additional UI noise.
+
+---
+
+### URLs Management Page (`/urls`)
+
+> Admin-style interface for managing existing short URLs.
+
+![URLs Page Screenshot](./docs/screenshots/urls.png)
+
+**Highlights**
+- List, edit, copy, and delete URLs in one place
+- Optimistic UI updates (no full refetch after actions)
+- Inline editing of long URLs
+- Responsive table layout for smaller screens
+
+This page demonstrates how the application scales beyond a simple demo into
+a maintainable management interface.
+
+---
+
+### Navigation & Global Layout
+
+> Shared layout and navigation across all pages.
+
+![Navigation Screenshot](./docs/screenshots/navigation.png)
+
+**Highlights**
+- Active route highlighting
+- Persistent navigation bar
+- Consistent spacing and typography
+- Glass-style surfaces and dark theme
+
+The navigation and layout system is shared across pages and implemented once
+at the application root.
+
+
+---
+
 ## Features
 
 ### Core Functionality
@@ -271,7 +351,12 @@ MONGO_PROJECT=
 MONGO_DOMAIN=mongodb.net
 MONGO_DB=test
 MONGO_OPTIONS=retryWrites=true&w=majority
+BASE_URL=http://localhost:5000
+
 ```
+>BASE_URL controls the domain prefix used when generating short URLs.
+>This allows clean demo URLs (e.g. https://short.ly/abc123) without code changes.
+
 A template is provided at:
 ```sh
 server/.env.example
