@@ -1,92 +1,58 @@
-/* App.css */
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f9;
-  margin: 0;
-  padding: 0;
-}
-
 .container {
-  margin: 20px;
-  padding: 20px;
-  background-color: #ffffff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-}
-
-h1 {
-  text-align: center;
+  max-width: 1000px;
+  margin: 0 auto;
   padding: 16px;
-  font-size: 2em;
-  color: #333;
-  margin-bottom: 20px;
 }
 
-h2 {
-  text-align: left;
-  padding: 8px;
-  font-size: 1.5em;
-  color: #555;
-  margin-bottom: 20px;
+.muted { opacity: 0.75; }
+
+.nav {
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  background: white;
 }
 
-table {
-  width: 100%;
-  margin: 20px 0;
-  border-collapse: collapse;
-  table-layout: fixed;
-  word-wrap: break-word;
+.nav-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 
-th, td {
-  border: 1px solid #dddddd;
-  text-align: center;
-  padding: 12px;
-  max-width: 200px;
-  white-space: normal;
+.brand {
+  font-weight: 800;
+  text-decoration: none;
+  color: inherit;
 }
 
-th {
-  background-color: #4CAF50;
-  color: white;
+.nav-links {
+  margin-left: auto;
+  display: flex;
+  gap: 10px;
 }
 
-tr:nth-child(even) {
-  background-color: #f2f2f2;
+.nav-link {
+  text-decoration: none;
+  color: inherit;
+  padding: 8px 10px;
+  border-radius: 10px;
+  font-weight: 600;
 }
 
-tr:hover {
-  background-color: #ddd;
+.nav-link:hover {
+  background: rgba(0,0,0,0.05);
 }
 
-input[type="text"] {
-  width: calc(100% - 22px);
-  padding: 10px;
-  margin: 10px 0px;
-  box-sizing: border-box;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+.btn {
+  display: inline-block;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-weight: 700;
+  text-decoration: none;
+  border: 1px solid transparent;
 }
 
-button {
-  background-color: #4CAF50;
-  color: white;
-  padding: 10px 20px;
-  margin: 10px 2px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #45a049;
-}
-
-.alert {
-  padding: 10px;
-  background-color: #f44336; /* Red */
-  color: white;
-  margin-bottom: 15px;
-  text-align: center;
-  border-radius: 4px;
+.btn.outline {
+  border-color: rgba(0,0,0,0.2);
 }
