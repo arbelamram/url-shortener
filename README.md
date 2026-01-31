@@ -10,7 +10,7 @@
 
 ## Overview
 
-![Landing Page Screenshot](./docs/screenshots/landing.png)
+![Landing Page Screenshot](./assets/screenshots/landing.png)
 
 ## Table of Contents
 
@@ -212,7 +212,7 @@ Each page is intentionally designed around a single responsibility.
 
 > Primary entry point — fast, minimal, and action-oriented.
 
-![Landing Page Screenshot](./docs/screenshots/landing.png)
+![Landing Page Screenshot](./assets/screenshots/landing.png)
 
 **Highlights**
 - One-click URL shortening
@@ -229,7 +229,7 @@ a URL without navigating away or configuring anything.
 
 > Tool-focused creation mode with minimal distractions.
 
-![Create Page Screenshot](./docs/screenshots/create.png)
+![Create Page Screenshot](./assets/screenshots/create.png)
 
 **Highlights**
 - Focused input + action layout
@@ -246,7 +246,7 @@ without additional UI noise.
 
 > Admin-style interface for managing existing short URLs.
 
-![URLs Page Screenshot](./docs/screenshots/urls.png)
+![URLs Page Screenshot](./assets/screenshots/urls.png)
 
 **Highlights**
 - List, edit, copy, and delete URLs in one place
@@ -263,7 +263,7 @@ a maintainable management interface.
 
 > Shared layout and navigation across all pages.
 
-![Navigation Screenshot](./docs/screenshots/navigation.png)
+![Navigation Screenshot](./assets/screenshots/navigation.png)
 
 **Highlights**
 - Active route highlighting
