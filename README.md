@@ -15,6 +15,7 @@
 ## Table of Contents
 
 1. [Architecture Overview](#architecture-overview)
+   - [Project Structure](#project-structure)
 2. [UI & Frontend Architecture](#ui--frontend-architecture)
 3. [Features](#features)
 4. [Technologies Used](#technologies-used)
@@ -64,6 +65,31 @@ This separation mirrors how real URL-shortening services are typically implement
 
 ---
 
+### Project Structure
+
+```
+
+url-shortener/
+│
+├── server/
+│ ├── config/
+│ ├── middleware/
+│ ├── models/
+│ ├── routes/
+│ └── index.js
+│
+├── client/
+│ └── src/
+│ ├── api/
+│ ├── components/
+│ ├── pages/
+│ └── styles/
+│
+└── README.md
+```
+
+---
+
 ## UI & Frontend Architecture
 
 The frontend is designed as a small, product-grade React application, focusing on clarity, separation of concerns, and long-term maintainability.
@@ -106,6 +132,13 @@ client/src/
   components/     # Reusable UI components
   pages/          # Route-level pages
   styles/         # All styling (tokens, base, global, page, component)
+
+server/
+  config/
+  middleware/
+  models/
+  routes/
+
 ```
 
 **Key principles:**
@@ -298,12 +331,23 @@ at the application root.
 
 ## Technologies Used
 
-- **Node.js** (Express.js backend)
-- **MongoDB Atlas** (persistence)
-- **Mongoose** (ODM)
-- **React** (frontend)
-- **shortid** (URL code generation)
-- **dotenv** (environment configuration)
+Backend:
+- Node.js
+- Express.js
+- MongoDB Atlas
+- Mongoose
+- dotenv
+- config (environment abstraction)
+
+Frontend:
+- React 18
+- React Router
+- Fetch API
+
+Development:
+- Nodemon
+- VS Code REST Client (optional)
+
 
 ---
 
@@ -344,18 +388,26 @@ All sensitive configuration is handled via environment variables.
 Create a `.env` file inside the **server directory**:
 
 ```env
+# Server
+PORT=5000
+BASE_URL=http://localhost:5000
+
+# MongoDB connection (used by config/db.js)
 MONGO_USER=
 MONGO_PASSWORD=
+
 MONGO_CLUSTER=
 MONGO_PROJECT=
 MONGO_DOMAIN=mongodb.net
-MONGO_DB=test
+
+MONGO_DB=
+
+# Optional connection options
 MONGO_OPTIONS=retryWrites=true&w=majority
-BASE_URL=http://localhost:5000
 
 ```
 >BASE_URL controls the domain prefix used when generating short URLs.
->This allows clean demo URLs (e.g. https://short.ly/abc123) without code changes.
+>This allows clean demo URLs (e.g. https://localhost:5000/abc123) without code changes.
 
 A template is provided at:
 ```sh
@@ -384,14 +436,15 @@ Backend API: `http://localhost:5000`
 
 ### API Endpoints
 ```md
+
 ### URL Resource (`/api/url`)
 
-| Method | Endpoint         | Description              |
-|--------|------------------|--------------------------|
-| GET    | `/api/url`       | Retrieve all URLs        |
-| POST   | `/api/url`       | Create a short URL       |
-| PUT    | `/api/url/:id`   | Update a URL by ID       |
-| DELETE | `/api/url/:id`   | Delete a URL by ID       |
+| Method | Endpoint       | Description       | Response           |
+|--------|----------------|-------------------|--------------------|
+| GET    | `/api/url`     | Retrieve all URLs | `{ urls: Url[] }`  |
+| POST   | `/api/url`     | Create short URL  | `{ message, url }` |
+| PUT    | `/api/url/:id` | Update URL        | `{ url }`          |
+| DELETE | `/api/url/:id` | Delete URL        | `{ message }`      |
 ```
 
 ### Redirect Endpoint
@@ -440,17 +493,16 @@ Redirect behavior (`/:code`) should be tested via a browser.
 * Environment-based configuration prevents credential leakage and supports deployment
 * Minimal frontend logic keeps focus on backend architecture and correctness
 
-### Known Limitations & Future Improvements
+## Known Limitations & Future Improvements
 
-The following enhancements are planned but intentionally excluded from the initial scope:
+Planned enhancements:
 
-* Collision-safe URL code generation
-* Unique database indexes for urlCode
-* Rate limiting and abuse protection
-* Click analytics and usage tracking
-* URL expiration support
-* Authentication and user ownership
-* Automated API testing (Jest + Supertest)
+- Replace deprecated shortid with nanoid
+- Rate limiting and abuse protection
+- Click analytics tracking
+- URL expiration support
+- Authentication and per-user URL ownership
+- Automated backend testing (Jest + Supertest)
 
 ### Contributing
 

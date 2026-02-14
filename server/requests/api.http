@@ -1,8 +1,50 @@
-// client http service
+### server/requests/api.http
+### REST Client test suite for URL Shortener API
+### Use with VS Code REST Client extension
 
-POST http://localhost:5000/api/url
+@baseUrl = http://localhost:5000
+@apiUrl = {{baseUrl}}/api/url
+
+# After creating a URL, copy its _id and urlCode here:
+@id = REPLACE_WITH_MONGO_ID
+@code = REPLACE_WITH_URL_CODE
+
+
+### ========================================
+### Create a short URL
+### ========================================
+POST {{apiUrl}}
 Content-Type: application/json
 
 {
-  "longUrl": "<PUT ANY URL HERE>"
+  "longUrl": "https://example.com"
 }
+
+
+### ========================================
+### Get all URLs
+### ========================================
+GET {{apiUrl}}
+
+
+### ========================================
+### Update URL by ID
+### ========================================
+PUT {{apiUrl}}/{{id}}
+Content-Type: application/json
+
+{
+  "longUrl": "https://example.org"
+}
+
+
+### ========================================
+### Delete URL by ID
+### ========================================
+DELETE {{apiUrl}}/{{id}}
+
+
+### ========================================
+### Test redirect by code
+### ========================================
+GET {{baseUrl}}/{{code}}

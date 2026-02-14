@@ -1,24 +1,55 @@
-const express = require("express");
+// server/routes/url.js
+// REST API routes for URL resources: list, create, update, and delete shortened URLs.
+
+const express = require('express');
 const router = express.Router();
 
-const validUrl = require("valid-url");
-const shortid = require("shortid");
-const config = require("config");
+const mongoose = require('mongoose');
+const validUrl = require('valid-url');
+const shortid = require('shortid');
+const config = require('config');
 
-const Url = require("../models/Url");
-const asyncHandler = require("../middleware/asyncHandler");
+const Url = require('../models/Url');
+const asyncHandler = require('../middleware/asyncHandler');
 
-// Helper: remove trailing slashes to avoid "https://x.com//abc"
+/**
+ * Helper: remove trailing slashes to avoid "https://x.com//abc"
+ */
 function normalizeBaseUrl(value) {
-  return String(value || "").replace(/\/+$/, "");
+  return String(value || '').replace(/\/+$/, '');
+}
+
+/**
+ * Helper: safely resolve the base URL used to generate short URLs.
+ * - Primary: config (config/default.json -> baseUrl)
+ * - Fallback: process.env.BASE_URL (matches your README)
+ */
+function getBaseUrl() {
+  const fromConfig = (() => {
+    try {
+      return config.get('baseUrl');
+    } catch {
+      return undefined;
+    }
+  })();
+
+  return normalizeBaseUrl(fromConfig || process.env.BASE_URL);
+}
+
+/**
+ * Helper: validate MongoDB ObjectId format to avoid CastError -> 500.
+ */
+function isValidObjectId(id) {
+  return mongoose.Types.ObjectId.isValid(id);
 }
 
 // @route     GET /api/url
 // @desc      Receive all URLs
 router.get(
-  "/",
+  '/',
   asyncHandler(async (req, res) => {
-    const urls = await Url.find();
+    // Use lean() since we only need plain JSON (faster, less memory)
+    const urls = await Url.find().lean();
     return res.json({ urls });
   })
 );
@@ -26,22 +57,22 @@ router.get(
 // @route     POST /api/url
 // @desc      Create short URL
 router.post(
-  "/",
+  '/',
   asyncHandler(async (req, res) => {
     const { longUrl } = req.body;
 
     if (!longUrl) {
-      return res.status(400).json({ error: "longUrl is required" });
+      return res.status(400).json({ error: 'longUrl is required' });
     }
 
-    const baseUrl = normalizeBaseUrl(config.get("baseUrl"));
+    const baseUrl = getBaseUrl();
 
     if (!validUrl.isUri(baseUrl)) {
-      return res.status(500).json({ error: "Invalid base url configuration" });
+      return res.status(500).json({ error: 'Invalid base url configuration' });
     }
 
     if (!validUrl.isUri(longUrl)) {
-      return res.status(400).json({ error: "Invalid long url" });
+      return res.status(400).json({ error: 'Invalid long url' });
     }
 
     // If URL already exists:
@@ -55,7 +86,7 @@ router.post(
       }
 
       return res.json({
-        message: "Long URL already exists.",
+        message: 'Long URL already exists.',
         url: existingUrl,
       });
     }
@@ -73,7 +104,7 @@ router.post(
     }
 
     if (!urlCode) {
-      return res.status(500).json({ error: "Failed to generate unique urlCode" });
+      return res.status(500).json({ error: 'Failed to generate unique urlCode' });
     }
 
     const shortUrl = `${baseUrl}/${urlCode}`;
@@ -88,7 +119,7 @@ router.post(
     await newUrl.save();
 
     return res.json({
-      message: "New short URL created.",
+      message: 'New short URL created.',
       url: newUrl,
     });
   })
@@ -97,49 +128,60 @@ router.post(
 // @route     PUT /api/url/:id
 // @desc      Update long URL by ID
 router.put(
-  "/:id",
+  '/:id',
   asyncHandler(async (req, res) => {
     const { longUrl } = req.body;
+    const { id } = req.params;
+
+    if (!isValidObjectId(id)) {
+      return res.status(400).json({ error: 'Invalid id' });
+    }
 
     if (!longUrl) {
-      return res.status(400).json({ error: "longUrl is required" });
+      return res.status(400).json({ error: 'longUrl is required' });
     }
 
     if (!validUrl.isUri(longUrl)) {
-      return res.status(400).json({ error: "Invalid long url" });
+      return res.status(400).json({ error: 'Invalid long url' });
     }
 
-    const url = await Url.findById(req.params.id);
+    const url = await Url.findById(id);
     if (!url) {
-      return res.status(404).json({ error: "URL not found" });
+      return res.status(404).json({ error: 'URL not found' });
     }
 
     // If another record already uses this longUrl, block the update
     const conflict = await Url.findOne({ longUrl, _id: { $ne: url._id } });
     if (conflict) {
-      return res.status(409).json({ error: "longUrl already exists for a different record" });
+      return res
+        .status(409)
+        .json({ error: 'longUrl already exists for a different record' });
     }
 
     url.longUrl = longUrl;
     await url.save();
 
-    return res.json(url);
+    return res.json({ url });
   })
 );
 
 // @route     DELETE /api/url/:id
 // @desc      Delete URL by ID
 router.delete(
-  "/:id",
+  '/:id',
   asyncHandler(async (req, res) => {
     const { id } = req.params;
 
-    const deleted = await Url.findByIdAndDelete(id);
-    if (!deleted) {
-      return res.status(404).json({ error: "URL not found" });
+    if (!isValidObjectId(id)) {
+      return res.status(400).json({ error: 'Invalid id' });
     }
 
-    return res.json({ message: "URL deleted successfully" });
+    const deleted = await Url.findByIdAndDelete(id);
+    if (!deleted) {
+      return res.status(404).json({ error: 'URL not found' });
+    }
+
+    return res.json({ message: 'URL deleted successfully' });
   })
 );
 

@@ -1,17 +1,21 @@
 {
-  "name": "server",
+  "name": "url-shortener-server",
   "version": "1.0.0",
-  "description": "",
-  "main": "express.js",
-  "scripts": {
-    "start": "node index",
-    "dev": "nodemon index"
+  "description": "Backend for URL Shortener (Express + MongoDB)",
+  "main": "index.js",
+  "license": "MIT",
+  "engines": {
+    "node": ">=16"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "lint:check": "echo \"(optional) add eslint later\"",
+    "test": "echo \"No tests yet\""
+  },
   "dependencies": {
     "config": "^3.3.12",
+    "cors": "^2.8.6",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "mongoose": "^8.4.4",

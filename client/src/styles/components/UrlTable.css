@@ -13,7 +13,7 @@
 .url-table-title {
   margin: 18px 0 12px 0;
   font-size: 22px;
-  font-weight: 900;
+  font-weight: 500;
   letter-spacing: -0.01em;
 }
 
@@ -32,7 +32,7 @@
 .url-table thead th {
   text-align: left;
   padding: 12px 14px;
-  font-weight: 900;
+  font-weight: 500;
   color: var(--text);
   background: rgba(255,255,255,0.06);
   border-bottom: 1px solid var(--border);
@@ -117,7 +117,7 @@
   border: 1px solid rgba(255,255,255,0.18);
   background: rgba(255,255,255,0.06);
   color: var(--text);
-  font-weight: 850;
+  font-weight: 500;
   cursor: pointer;
   transition: transform 120ms ease, background 120ms ease, border-color 120ms ease;
 }

@@ -1,47 +1,43 @@
-// src/components/Navbar.js
-// ---------------------------------------------
-// Global Navigation Bar
-// ---------------------------------------------
-// Purpose:
-// - Provides top-level navigation across the app.
-// - Highlights the active route for better UX.
-//
-// Design notes:
-// - Uses NavLink for automatic active-state styling.
-// - Styling lives in global.css (layout-level component).
+// client/src/components/Navbar.js
+// Global navigation component: provides top-level routing links and active route highlighting.
 
-import { NavLink } from "react-router-dom";
+import { NavLink } from 'react-router-dom';
 
+/**
+ * Navbar component.
+ * Displays application brand and primary navigation links.
+ * Uses NavLink to automatically apply active styling based on current route.
+ */
 export default function Navbar() {
   return (
-    <div className="nav">
-      <div className="nav-inner">
+    <nav className='nav'>
+      <div className='nav-inner'>
         {/* Brand / home link */}
-        <NavLink className="brand" to="/">
+        <NavLink className='brand' to='/'>
           Shorten URL
         </NavLink>
 
         {/* Primary navigation actions */}
-        <div className="nav-links">
+        <div className='nav-links'>
           <NavLink
-            to="/create"
+            to='/create'
             className={({ isActive }) =>
-              `nav-link ${isActive ? "active" : ""}`
+              `nav-link ${isActive ? 'active' : ''}`
             }
           >
             Create
           </NavLink>
 
           <NavLink
-            to="/urls"
+            to='/urls'
             className={({ isActive }) =>
-              `nav-link ${isActive ? "active" : ""}`
+              `nav-link ${isActive ? 'active' : ''}`
             }
           >
             My URLs
           </NavLink>
         </div>
       </div>
-    </div>
+    </nav>
   );
 }

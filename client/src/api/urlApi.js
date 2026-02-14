@@ -1,42 +1,34 @@
-// src/api/urlApi.js
-// ---------------------------------------------
-// API Layer (Client -> Server)
-// ---------------------------------------------
-// Purpose:
-// - Provides a small, centralized wrapper around the backend endpoints.
-// - Keeps fetch() usage out of UI components for readability and reuse.
-//
-// Notes:
-// - All functions here return parsed JSON (when applicable).
-// - For non-2xx HTTP responses, we throw an Error.
-//   Components can catch and show user-friendly messages.
-//
-// Backend routes used:
-// - GET    /api/url        -> { urls: Url[] }
-// - POST   /api/url        -> { message: string, url: Url }
-// - PUT    /api/url/:id    -> Url
-// - DELETE /api/url/:id    -> (usually empty or a message)
+// client/src/api/urlApi.js
+// Client-side API layer: provides a centralized wrapper around backend URL endpoints.
+// Keeps fetch logic isolated from UI components and normalizes success/error handling.
 
-async function fetchJson(url, options) {
+/**
+ * Internal helper: performs a fetch request and safely parses the response.
+ * - Parses JSON when available
+ * - Falls back to text when needed
+ * - Throws normalized Error for non-OK responses
+ */
+async function fetchJson(url, options = {}) {
   const res = await fetch(url, options);
 
-  // Try to parse JSON if present (some endpoints might not return JSON)
   let data = null;
-  const contentType = res.headers.get("content-type") || "";
+  const contentType = res.headers.get('content-type') || '';
 
-  if (contentType.includes("application/json")) {
+  // Parse JSON if available
+  if (contentType.includes('application/json')) {
     data = await res.json();
   } else {
-    // If not JSON, attempt text (useful for debugging server errors)
+    // Fallback to text (useful for debugging server errors)
     const text = await res.text();
     data = text ? { message: text } : null;
   }
 
-  // Normalize errors: throw for non-OK responses
+  // Normalize errors
   if (!res.ok) {
     const message =
-      (data && data.message) ||
+      (data && (data.error || data.message)) ||
       `Request failed (${res.status} ${res.statusText})`;
+
     throw new Error(message);
   }
 
@@ -45,42 +37,48 @@ async function fetchJson(url, options) {
 
 /**
  * GET all saved URLs
+ * Backend: GET /api/url
  * Response: { urls: Url[] }
  */
 export async function getAllUrls() {
-  return fetchJson("/api/url");
+  return fetchJson('/api/url');
 }
 
 /**
  * POST create a new short URL
+ * Backend: POST /api/url
  * Body: { longUrl: string }
  * Response: { message: string, url: Url }
  */
 export async function createUrl(longUrl) {
-  return fetchJson("/api/url", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
+  return fetchJson('/api/url', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ longUrl }),
   });
 }
 
 /**
  * PUT update an existing URL record
+ * Backend: PUT /api/url/:id
  * Body: { longUrl: string }
- * Response: Url
+ * Response: { url: Url }
  */
 export async function updateUrl(id, longUrl) {
   return fetchJson(`/api/url/${id}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ longUrl }),
   });
 }
 
 /**
  * DELETE remove a URL record
- * Response: usually empty or a message
+ * Backend: DELETE /api/url/:id
+ * Response: { message: string }
  */
 export async function deleteUrl(id) {
-  return fetchJson(`/api/url/${id}`, { method: "DELETE" });
+  return fetchJson(`/api/url/${id}`, {
+    method: 'DELETE',
+  });
 }
