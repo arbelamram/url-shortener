@@ -46,7 +46,7 @@ No linter is configured. The client uses the CRA default (`eslint-config-react-a
 
 ## Environment Setup
 
-Copy `.env.example` to `.env` in the root (or `server/`) and fill in:
+Copy `server/.env.example` to `server/.env` and fill in:
 
 ```
 PORT=5000

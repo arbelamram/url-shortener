@@ -1,4 +1,4 @@
-# URL Shortener Service
+﻿# URL Shortener Service
 
 ![NodeJS](https://img.shields.io/badge/Node.js-18%2B-brightgreen.svg)
 ![Express](https://img.shields.io/badge/Express.js-Backend-lightgrey.svg)
@@ -53,13 +53,15 @@ The system is intentionally split into **two distinct backend responsibilities**
 
 ### High-level Flow
 
+```
 Client (React)
-↓
+      ↓
 REST API (/api/url)
-↓
+      ↓
 MongoDB (Atlas)
-↑
+      ↑
 Redirect Endpoint (/:code)
+```
 
 This separation mirrors how real URL-shortening services are typically implemented.
 
@@ -68,23 +70,27 @@ This separation mirrors how real URL-shortening services are typically implement
 ### Project Structure
 
 ```
-
 url-shortener/
 │
 ├── server/
-│ ├── config/
-│ ├── middleware/
-│ ├── models/
-│ ├── routes/
-│ └── index.js
+│   ├── config/
+│   ├── middleware/
+│   ├── models/
+│   ├── routes/
+│   └── index.js
 │
 ├── client/
-│ └── src/
-│ ├── api/
-│ ├── components/
-│ ├── pages/
-│ └── styles/
+│   └── src/
+│       ├── api/
+│       ├── components/
+│       ├── pages/
+│       └── styles/
 │
+├── assets/
+│   ├── icons/
+│   └── screenshots/
+│
+├── CLAUDE.md
 └── README.md
 ```
 
@@ -370,7 +376,7 @@ git clone https://github.com/arbelamram/url-shortener.git
 cd url-shortener
 ```
 
-#### Install dependencies:
+**Install dependencies:**
 ```sh
 # Backend
 cd server
@@ -435,9 +441,8 @@ Frontend UI: `http://localhost:3000`<br>
 Backend API: `http://localhost:5000`
 
 ### API Endpoints
-```md
 
-### URL Resource (`/api/url`)
+#### URL Resource (`/api/url`)
 
 | Method | Endpoint       | Description       | Response           |
 |--------|----------------|-------------------|--------------------|
@@ -445,7 +450,6 @@ Backend API: `http://localhost:5000`
 | POST   | `/api/url`     | Create short URL  | `{ message, url }` |
 | PUT    | `/api/url/:id` | Update URL        | `{ url }`          |
 | DELETE | `/api/url/:id` | Delete URL        | `{ message }`      |
-```
 
 ### Redirect Endpoint
 ```sh
@@ -467,7 +471,7 @@ Content-Type: application/json
 ```
 
 Example POST request body:
-```sh
+```json
 {
   "longUrl": "https://example.com"
 }
@@ -485,7 +489,7 @@ This allows quick, repeatable testing directly from VS Code.
 
 Redirect behavior (`/:code`) should be tested via a browser.
 
-### Design Decisions
+## Design Decisions
 
 * MongoDB was selected for schema flexibility and low operational overhead
 * Redirect routes are intentionally separate from the REST API
@@ -504,7 +508,7 @@ Planned enhancements:
 - Authentication and per-user URL ownership
 - Automated backend testing (Jest + Supertest)
 
-### Contributing
+## Contributing
 
 To contribute:
 
@@ -513,13 +517,11 @@ To contribute:
 3. Commit changes with clear, scoped messages
 4. Open a pull request for review
 
-### Contact
+## Contact
 For questions or feedback:
 * Email: ArbelAmram@gmail.com
 
-##
-
-### License
+## License
 
 This project is licensed under the MIT License.
 See the LICENSE file for details.
