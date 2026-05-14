@@ -20,6 +20,7 @@
 /* Table shell */
 .url-table {
   width: 100%;
+  table-layout: fixed; /* columns respect explicit widths; prevents horizontal overflow */
   border-collapse: separate;
   border-spacing: 0;
   border: 1px solid var(--border);
@@ -58,16 +59,18 @@
   border-bottom: none;
 }
 
-/* Column hints (works with your current markup) */
+/* Column widths — fixed for Date/Actions, fluid for URL columns */
 .url-table th:nth-child(1),
-.url-table td:nth-child(1) {
-  width: 185px; /* Date */
-}
+.url-table td:nth-child(1) { width: 185px; }  /* Date */
+
+.url-table th:nth-child(2),
+.url-table td:nth-child(2) { width: auto; }   /* Long URL: takes remaining space */
+
+.url-table th:nth-child(3),
+.url-table td:nth-child(3) { width: 24%; }    /* Short URL */
 
 .url-table th:nth-child(4),
-.url-table td:nth-child(4) {
-  width: auto; /* Actions */
-}
+.url-table td:nth-child(4) { width: 250px; }  /* Actions */
 
 /* Links */
 .url-table a {
@@ -86,18 +89,14 @@
   white-space: nowrap;
 }
 
-/* URL cells: truncate nicely */
+/* URL cells: wrap to multiple lines instead of overflowing */
 .url-table .cell-url {
-  max-width: 560px; /* desktop */
+  overflow-wrap: anywhere; /* break long URLs at any character if needed */
 }
 
 .url-table .url-text {
-  display: inline-block;
-  max-width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  vertical-align: bottom;
+  white-space: normal;
+  word-break: break-all;
 }
 
 /* Actions */
@@ -163,21 +162,13 @@
   box-shadow: 0 0 0 3px rgba(124,58,237,0.18);
 }
 
-/* Responsive: allow wrapping on smaller screens */
+/* Tighten fixed columns on medium screens */
 @media (max-width: 900px) {
-  .url-table th:nth-child(1),
-  .url-table td:nth-child(1) {
-    width: 160px;
-  }
+  .url-table th:nth-child(3),
+  .url-table td:nth-child(3) { width: 22%; }
 
   .url-table th:nth-child(4),
-  .url-table td:nth-child(4) {
-    width: 220px;
-  }
-
-  .url-table .cell-url {
-    max-width: 320px;
-  }
+  .url-table td:nth-child(4) { width: 150px; }
 }
 
 @media (max-width: 720px) {
@@ -194,6 +185,14 @@
     width: 100%;
   }
 
+  /* Reset column widths — nth-child rules have higher specificity than the
+     td { width: 100% } above, so we must explicitly override each one */
+  .url-table td:nth-child(1),
+  .url-table td:nth-child(3),
+  .url-table td:nth-child(4) {
+    width: 100%;
+  }
+
   .url-table tr {
     border-bottom: 1px solid rgba(255,255,255,0.10);
   }
@@ -205,11 +204,5 @@
 
   .url-table-actions {
     margin-top: 6px;
-  }
-
-  .url-table .url-text {
-    white-space: normal;
-    overflow: visible;
-    text-overflow: unset;
   }
 }
