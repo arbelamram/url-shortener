@@ -74,23 +74,50 @@ url-shortener/
 │
 ├── server/
 │   ├── config/
+│   │   ├── db.js
+│   │   ├── default.json
+│   │   └── custom-environment-variables.json
 │   ├── middleware/
+│   │   ├── asyncHandler.js
+│   │   └── errorHandler.js
 │   ├── models/
+│   │   └── Url.js
 │   ├── routes/
+│   │   ├── url.js
+│   │   └── redirect.js
+│   ├── requests/
+│   │   └── api.http
+│   ├── .env.example
 │   └── index.js
 │
 ├── client/
 │   └── src/
 │       ├── api/
+│       │   └── urlApi.js
 │       ├── components/
+│       │   ├── CopyButton.js
+│       │   ├── Navbar.js
+│       │   ├── UrlCreateForm.js
+│       │   └── UrlTable.js
 │       ├── pages/
-│       └── styles/
+│       │   ├── LandingPage.js
+│       │   ├── CreatePage.js
+│       │   └── UrlsPage.js
+│       ├── styles/
+│       │   ├── tokens.css
+│       │   ├── base.css
+│       │   ├── global.css
+│       │   ├── components/
+│       │   └── pages/
+│       ├── App.js
+│       └── index.js
 │
 ├── assets/
-│   ├── icons/
 │   └── screenshots/
 │
 ├── CLAUDE.md
+├── TODO.md
+├── LICENSE
 └── README.md
 ```
 
