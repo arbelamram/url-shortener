@@ -83,7 +83,7 @@ All async route handlers are wrapped with `asyncHandler` (`server/middleware/asy
 | `config/db.js` | Builds MongoDB Atlas SRV URI and connects; fails fast on missing env vars |
 | `models/Url.js` | Mongoose schema: `urlCode`, `longUrl`, `shortUrl`, `date` |
 | `routes/url.js` | CRUD endpoints; duplicate-prevention, 5-try collision-safe `shortid` generation |
-| `routes/index.js` | Redirect-only route |
+| `routes/redirect.js` | Redirect-only route |
 | `middleware/asyncHandler.js` | Wraps async handlers to forward errors |
 | `middleware/errorHandler.js` | Translates Mongoose CastError → 400, duplicate key → 409 |
 

@@ -9,7 +9,6 @@ server/.env
 
 # Local notes (may contain secrets — never commit)
 NOTES.md
-notes.md
 
 # OS artifacts (consider moving desktop.ini to your global ~/.gitignore_global)
 desktop.ini

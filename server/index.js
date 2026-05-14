@@ -21,7 +21,7 @@ app.use(express.json());
  * - /        : redirect layer (/:code) for resolving short links
  */
 app.use('/api/url', require('./routes/url'));
-app.use('/', require('./routes/index'));
+app.use('/', require('./routes/redirect'));
 
 /**
  * Global error handler (MUST be registered last)
