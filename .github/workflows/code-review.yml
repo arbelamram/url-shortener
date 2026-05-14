@@ -1,0 +1,72 @@
+name: Claude Code Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'PR number to review'
+        required: true
+        type: number
+      owner:
+        description: 'Repository owner'
+        required: false
+        type: string
+      repo:
+        description: 'Repository name'
+        required: false
+        type: string
+
+jobs:
+  code-review:
+    runs-on: ubuntu-latest
+
+    permissions:
+      pull-requests: write
+      contents: read
+      issues: write
+      statuses: write
+
+    steps:
+      - name: Block merge while review is running
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v8
+        with:
+          script: |
+            await github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: context.payload.pull_request.head.sha,
+              state: 'failure',
+              description: 'Code review in progress...',
+              context: 'code-review/issues',
+            });
+
+      - name: Checkout code reviewer
+        uses: actions/checkout@v6
+        with:
+          repository: arbelamram/claude-code-reviewer
+          ref: main
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Project
+        run: npm run build
+
+      - name: Run Claude Code Review
+        env:
+          GITHUB_OWNER: ${{ inputs.owner || github.repository_owner }}
+          GITHUB_REPO: ${{ inputs.repo || github.event.repository.name }}
+          PR_NUMBER: ${{ inputs.pr_number || github.event.pull_request.number }}
+          CLAUDE_API_KEY: ${{ secrets.CLAUDE_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: npm run review
