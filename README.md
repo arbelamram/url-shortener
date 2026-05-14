@@ -39,13 +39,13 @@
 
 The system is intentionally split into **two distinct backend responsibilities**:
 
-### 1️⃣ REST API Layer (`/api/url`)
+### REST API Layer (`/api/url`)
 - Exposes a **RESTful JSON API**
 - Manages URL resources (create, read, update, delete)
 - Stateless, resource-based, and uses standard HTTP verbs
 - Centralized error handling and async-safe routing
 
-### 2️⃣ Redirect Layer (`/:code`)
+### Redirect Layer (`/:code`)
 - Handles short-link resolution
 - Performs a database lookup and issues an **HTTP redirect**
 - Not part of the REST API by design
@@ -54,13 +54,14 @@ The system is intentionally split into **two distinct backend responsibilities**
 ### High-level Flow
 
 ```
-Client (React)
-      ↓
-REST API (/api/url)
-      ↓
-MongoDB (Atlas)
-      ↑
-Redirect Endpoint (/:code)
+Browser / React SPA
+        │                      │
+        ▼                      ▼
+REST API (/api/url)    Redirect (/:code)
+        │                      │
+        └──────────┬───────────┘
+                   ▼
+            MongoDB (Atlas)
 ```
 
 This separation mirrors how real URL-shortening services are typically implemented.
@@ -374,7 +375,7 @@ Backend:
 
 Frontend:
 - React 18
-- React Router
+- React Router v7
 - Fetch API
 
 Development:
@@ -439,8 +440,8 @@ MONGO_DB=
 MONGO_OPTIONS=retryWrites=true&w=majority
 
 ```
->BASE_URL controls the domain prefix used when generating short URLs.
->This allows clean demo URLs (e.g. https://localhost:5000/abc123) without code changes.
+> `BASE_URL` controls the domain prefix used when generating short URLs.
+> This allows clean demo URLs (e.g. `http://localhost:5000/abc123`) without code changes.
 
 A template is provided at:
 ```sh
@@ -448,8 +449,8 @@ server/.env.example
 ```
 ⚠️ Do not commit .env files — they are intentionally excluded via .gitignore.
 
-### Usage
-#### Running the Application
+## Usage
+### Running the Application
 
 Start the backend server:
 ```sh
@@ -546,7 +547,7 @@ To contribute:
 
 ## Contact
 For questions or feedback:
-* Email: ArbelAmram@gmail.com
+* Email: arbelamram@gmail.com
 
 ## License
 
