@@ -1,4 +1,4 @@
-// server/routes/index.js
+// server/routes/redirect.js
 // Redirect layer: resolves a short code (/:code) to its original long URL and issues an HTTP redirect.
 
 const express = require('express');

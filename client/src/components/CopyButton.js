@@ -104,7 +104,7 @@ export default function CopyButton({
           isError ? 'is-error' : ''
         }`}
         disabled={!text}
-        aria-label='Copy to clipboard'
+        aria-label={isCopied ? 'Copied to clipboard' : isError ? 'Failed to copy' : 'Copy to clipboard'}
       >
         <span className='copy-icon' aria-hidden='true'>
           {/* Icon switches from "copy" to "check" when copied */}

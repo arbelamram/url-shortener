@@ -91,10 +91,10 @@ export default function UrlTable({ urls, onDeleted, onUpdated }) {
       <table className='url-table'>
         <thead>
           <tr>
-            <th>Date</th>
-            <th>Long URL</th>
-            <th>Short URL</th>
-            <th>Actions</th>
+            <th scope='col'>Date</th>
+            <th scope='col'>Long URL</th>
+            <th scope='col'>Short URL</th>
+            <th scope='col'>Actions</th>
           </tr>
         </thead>
 
@@ -150,12 +150,23 @@ export default function UrlTable({ urls, onDeleted, onUpdated }) {
                   <CopyButton text={url.shortUrl} />
 
                   {editMode === url._id ? (
-                    <button
-                      type='button'
-                      onClick={() => handleSave(url._id)}
-                    >
-                      Save
-                    </button>
+                    <>
+                      <button
+                        type='button'
+                        onClick={() => handleSave(url._id)}
+                      >
+                        Save
+                      </button>
+                      <button
+                        type='button'
+                        onClick={() => {
+                          setEditMode(null);
+                          setEditLongUrl('');
+                        }}
+                      >
+                        Cancel
+                      </button>
+                    </>
                   ) : (
                     <button
                       type='button'

@@ -18,6 +18,8 @@ export default function UrlCreateForm({ onCreated }) {
 
   // Alert message shown after creation or error
   const [alertMessage, setAlertMessage] = useState('');
+  const [alertType, setAlertType] = useState('success'); // 'success' | 'error'
+  const [loading, setLoading] = useState(false);
 
   /**
    * Auto-clear alert after a few seconds for cleaner UX.
@@ -38,22 +40,21 @@ export default function UrlCreateForm({ onCreated }) {
    */
   const handleCreate = async () => {
     const value = newLongUrl.trim();
-    if (!value) return;
+    if (!value || loading) return;
 
+    setLoading(true);
     try {
-      // API returns: { message, url }
       const result = await createUrl(value);
-
       setAlertMessage(result?.message || 'Created');
+      setAlertType('success');
       setNewLongUrl('');
-
-      // Notify parent page so it can update its local list
-      if (result?.url && onCreated) {
-        onCreated(result.url);
-      }
+      if (result?.url && onCreated) onCreated(result.url);
     } catch (err) {
       console.error('Failed to create URL:', err);
       setAlertMessage(err?.message || 'Failed to create URL');
+      setAlertType('error');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -64,7 +65,9 @@ export default function UrlCreateForm({ onCreated }) {
       <div className='landing-form'>
         {/* Success / error feedback */}
         {alertMessage && (
-          <div className='url-create-alert'>{alertMessage}</div>
+          <div className={`url-create-alert${alertType === 'error' ? ' is-error' : ''}`}>
+            {alertMessage}
+          </div>
         )}
 
         {/* Input + action */}
@@ -81,7 +84,7 @@ export default function UrlCreateForm({ onCreated }) {
           type='button'
           onClick={handleCreate}
           className='url-create-btn'
-          disabled={!newLongUrl.trim()}
+          disabled={!newLongUrl.trim() || loading}
         >
           Create
         </button>

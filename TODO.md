@@ -11,3 +11,6 @@
 * Standardize API response envelope — GET returns `{ urls }`, POST `{ message, url }`, PUT `{ url }`, DELETE `{ message }`; normalize to a single shape so clients don't need `unwrapUrl()` hacks.
 * Short-circuit no-op PUT — when the submitted `longUrl` equals the stored value, skip the DB save and return 200 immediately.
 * Add client-side URL format validation (frontend only checks non-empty; server already rejects bad input but early feedback improves UX).
+* Add CORS configuration for production — currently no CORS headers; required if frontend and backend are served from different origins.
+* Add explicit field projection to `Url.find().lean()` — avoids fetching unused fields if schema grows (e.g. `find({}, 'urlCode longUrl shortUrl date')`).
+* Decouple `.landing-form` CSS class from `UrlCreateForm` — the component currently relies on a class defined in `LandingPage.css`; rename to `.url-create-form` for proper encapsulation.

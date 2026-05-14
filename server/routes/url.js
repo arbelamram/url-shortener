@@ -50,6 +50,7 @@ function isValidObjectId(id) {
  * Returns an error string, or null if valid.
  */
 function validateLongUrl(url) {
+  if (url.length > 2048) return 'URL must be 2048 characters or fewer';
   if (!validUrl.isUri(url)) return 'Invalid long url';
   try {
     const { protocol } = new URL(url);
