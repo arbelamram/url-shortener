@@ -122,6 +122,7 @@ export default function UrlTable({ urls, onDeleted, onUpdated }) {
                     onChange={(e) => setEditLongUrl(e.target.value)}
                     className='url-table-input'
                     autoComplete='off'
+                    aria-label='Edit long URL'
                   />
                 ) : (
                   <a
@@ -153,12 +154,14 @@ export default function UrlTable({ urls, onDeleted, onUpdated }) {
                     <>
                       <button
                         type='button'
+                        aria-label='Save changes'
                         onClick={() => handleSave(url._id)}
                       >
                         Save
                       </button>
                       <button
                         type='button'
+                        aria-label='Cancel editing'
                         onClick={() => {
                           setEditMode(null);
                           setEditLongUrl('');
@@ -170,6 +173,7 @@ export default function UrlTable({ urls, onDeleted, onUpdated }) {
                   ) : (
                     <button
                       type='button'
+                      aria-label={`Edit ${url.longUrl}`}
                       onClick={() => {
                         setEditMode(url._id);
                         setEditLongUrl(url.longUrl);
@@ -183,6 +187,7 @@ export default function UrlTable({ urls, onDeleted, onUpdated }) {
                   <button
                     type='button'
                     className='danger'
+                    aria-label={`Delete ${url.longUrl}`}
                     onClick={() => handleDelete(url._id)}
                   >
                     Delete

@@ -93,6 +93,7 @@ export default function LandingPage() {
             placeholder='Paste a long URL here...'
             className='landing-input'
             autoComplete='off'
+            aria-label='Long URL to shorten'
           />
 
           <button

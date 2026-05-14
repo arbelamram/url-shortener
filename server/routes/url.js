@@ -12,6 +12,8 @@ const config = require('config');
 const Url = require('../models/Url');
 const asyncHandler = require('../middleware/asyncHandler');
 
+const MAX_URL_LENGTH = 2048;
+
 /**
  * Helper: remove trailing slashes to avoid "https://x.com//abc"
  */
@@ -50,7 +52,7 @@ function isValidObjectId(id) {
  * Returns an error string, or null if valid.
  */
 function validateLongUrl(url) {
-  if (url.length > 2048) return 'URL must be 2048 characters or fewer';
+  if (url.length > MAX_URL_LENGTH) return `URL must be ${MAX_URL_LENGTH} characters or fewer`;
   if (!validUrl.isUri(url)) return 'Invalid long url';
   try {
     const { protocol } = new URL(url);

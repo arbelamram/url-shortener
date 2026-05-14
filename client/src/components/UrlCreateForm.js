@@ -78,6 +78,7 @@ export default function UrlCreateForm({ onCreated }) {
           placeholder='Enter long URL'
           className='url-create-input'
           autoComplete='off'
+          aria-label='Long URL to shorten'
         />
 
         <button
@@ -86,7 +87,7 @@ export default function UrlCreateForm({ onCreated }) {
           className='url-create-btn'
           disabled={!newLongUrl.trim() || loading}
         >
-          Create
+          {loading ? 'Creating...' : 'Create'}
         </button>
       </div>
     </div>

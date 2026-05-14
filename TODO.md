@@ -14,3 +14,7 @@
 * Add CORS configuration for production — currently no CORS headers; required if frontend and backend are served from different origins.
 * Add explicit field projection to `Url.find().lean()` — avoids fetching unused fields if schema grows (e.g. `find({}, 'urlCode longUrl shortUrl date')`).
 * Decouple `.landing-form` CSS class from `UrlCreateForm` — the component currently relies on a class defined in `LandingPage.css`; rename to `.url-create-form` for proper encapsulation.
+* Add inline save-success feedback to `UrlTable` — after a successful PUT, show a brief visual confirmation (e.g. flash the row or show a transient "Saved" badge) so the user knows the update persisted.
+* Add pagination or virtual scrolling to `UrlsPage` — the current implementation fetches and renders all URLs; this will degrade once the list grows.
+* Extract a shared error-message utility — `err?.message || 'Fallback'` is repeated across components; a small helper would centralize the fallback text and formatting.
+* Rename `backendData` / clarify ambiguous variable names in `urlApi.js` — improve readability for future contributors.
