@@ -88,7 +88,9 @@ export default function UrlsPage() {
   };
 
   // Loading state (before the API response arrives)
-  if (typeof backendData.urls === 'undefined') return <p>Loading...</p>;
+  if (typeof backendData.urls === 'undefined') {
+    return <div className='container urls-page'><p>Loading...</p></div>;
+  }
 
   return (
     <div className='container urls-page'>

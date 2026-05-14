@@ -12,6 +12,8 @@ git checkout -b <feature-or-test-name>
 
 Merge to `main` only when the change is stable and verified.
 
+Once a change on a branch is tested and solid, commit and push it before moving on. Every medium-to-heavy change should live in its own branch — this keeps the git history clean and makes progress easy to track and review.
+
 ## Commands
 
 ### Development

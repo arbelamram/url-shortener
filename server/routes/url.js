@@ -43,8 +43,27 @@ function isValidObjectId(id) {
   return mongoose.Types.ObjectId.isValid(id);
 }
 
+/**
+ * Helper: validate a user-supplied long URL.
+ * - Rejects malformed URIs
+ * - Whitelists http/https only (prevents javascript:, data:, vbscript: redirects)
+ * Returns an error string, or null if valid.
+ */
+function validateLongUrl(url) {
+  if (!validUrl.isUri(url)) return 'Invalid long url';
+  try {
+    const { protocol } = new URL(url);
+    if (protocol !== 'http:' && protocol !== 'https:') {
+      return 'Only http and https URLs are allowed';
+    }
+  } catch {
+    return 'Invalid long url';
+  }
+  return null;
+}
+
 // @route     GET /api/url
-// @desc      Receive all URLs
+// @desc      Retrieve all URLs
 router.get(
   '/',
   asyncHandler(async (req, res) => {
@@ -71,8 +90,9 @@ router.post(
       return res.status(500).json({ error: 'Invalid base url configuration' });
     }
 
-    if (!validUrl.isUri(longUrl)) {
-      return res.status(400).json({ error: 'Invalid long url' });
+    const postUrlError = validateLongUrl(longUrl);
+    if (postUrlError) {
+      return res.status(400).json({ error: postUrlError });
     }
 
     // If URL already exists:
@@ -113,7 +133,6 @@ router.post(
       longUrl,
       shortUrl,
       urlCode,
-      date: new Date(),
     });
 
     await newUrl.save();
@@ -141,8 +160,9 @@ router.put(
       return res.status(400).json({ error: 'longUrl is required' });
     }
 
-    if (!validUrl.isUri(longUrl)) {
-      return res.status(400).json({ error: 'Invalid long url' });
+    const putUrlError = validateLongUrl(longUrl);
+    if (putUrlError) {
+      return res.status(400).json({ error: putUrlError });
     }
 
     const url = await Url.findById(id);

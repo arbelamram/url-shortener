@@ -10,7 +10,8 @@ const asyncHandler = require('../middleware/asyncHandler');
 /**
  * GET /:code
  * Looks up the short code in MongoDB and redirects to the stored long URL.
- * Note: We explicitly use 302 for now (temporary redirect). We can switch to 301 later if desired.
+ * Uses 302 (not 301) so browsers don't cache redirects — if a URL is changed or deleted,
+ * the next visit always hits the server for the current target.
  */
 router.get(
   '/:code',
